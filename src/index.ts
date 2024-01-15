@@ -26,7 +26,7 @@ const client = (accessKeyId: string, secretAccessKey: string) =>
 
 const storage = new HonoS3Storage({
   key: (_, file) =>
-    `karma-files/${file.originalname}-${new Date().getTime()}.${file.extension}`,
+    `karma-files/jd_images/${file.originalname}.${file.extension}`,
   bucket: AWS_BUCKET_NAME,
   params: {
     ACL: "public-read",
@@ -34,6 +34,11 @@ const storage = new HonoS3Storage({
   client: (c) => client(AWS_KEY, AWS_SECRET),
 });
 
-app.post("/upload", storage.single("file"), (c) => c.text("OK"));
+app.post("/upload", storage.single("file"), async (c) => {
+  const body = await c.req.parseBody()
+  return c.json({
+    url: `https://${AWS_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/karma-files/jd_images/${body['file'].name.toString()}`
+  })
+});
 
 export default app;
