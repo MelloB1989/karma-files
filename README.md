@@ -1,1 +1,8 @@
-# karma-files
+```
+npm install
+npm run dev
+```
+
+```
+npm run deploy
+```
