@@ -2,13 +2,19 @@
 import { useState } from "react";
 
 export default function Home() {
-  const [files, Setfiles] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
+
+  const handleFilesInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.currentTarget.files);
+    if (!e.currentTarget.files) return;
+    setFiles([...e.currentTarget.files]);
+  };
   return (
     <main className="grow flex justify-center items-center">
       {/* <ToastContainer /> */}
       <div className="rounded-xl border border-gray-100 dark:border-gray-700/60 bg-white shadow-default dark:border-strokedark dark:bg-gray-800 xl:w-fit">
         <div className="border-b border-stroke px-7 py-4 dark:border-gray-700">
-          <h3 className="font-medium text-md text-black dark:text-white p-0">
+          <h3 className="font-medium text-md text-gray-800 dark:text-gray-200 p-0">
             Upload Your Files
           </h3>
         </div>
@@ -20,8 +26,10 @@ export default function Home() {
             >
               <input
                 type="file"
-                accept="application/pdf"
+                accept="*"
                 className="absolute inset-0 z-50 m-0 h-full w-full cursor-pointer p-0 opacity-0 outline-none"
+                multiple
+                onChange={handleFilesInputChange}
               />
               <div className="flex flex-col items-center justify-center space-y-3">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
@@ -52,31 +60,37 @@ export default function Home() {
                     />
                   </svg>
                 </span>
-                <p className="text-sm font-medium text-white">
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">
                   <span className="text-blue-600">Click to upload</span> or drag
                   and drop
                 </p>
                 {/* <p className="mt-1.5 text-sm font-medium">PDF files only</p> */}
               </div>
             </div>
-            <div className="mt-5 relative mb-5.5 block w-full cursor-pointer appearance-none rounded border border-dashed border-blue-600 bg-gray p-2 dark:bg-meta-4 sm:py-7.5 scroll-container min-h-6 max-h-12 overflow-y-scroll no-scrollbar">
-              <p className="border-b-white">c</p>
-              <p>d</p>
-              <p>f</p>
-              <p>f</p>
+            <div className="mt-4 relative mb-4 block w-full appearance-none bg-gray p-2 dark:bg-meta-4 sm:py-7.5 scroll-container min-h-6 max-h-48 overflow-y-scroll no-scrollbar text-gray-800 dark:text-gray-200">
+              {files.length > 0
+                ? `${files.length} file${files.length > 1 ? "s" : ""} selected.`
+                : "No files selected."}
             </div>
+            {files.length > 0 && (
+              <div className="mt-5 relative mb-5.5 block w-full appearance-none rounded border border-dashed border-blue-600 bg-gray p-2 dark:bg-meta-4 sm:py-7.5 scroll-container min-h-6 max-h-48 overflow-y-scroll no-scrollbar text-gray-800 dark:text-gray-200">
+                {files.map((file) => (
+                  <p className="text-sm">{file.name}</p>
+                ))}
+              </div>
+            )}
             <div className="flex justify-end mt-5 gap-2">
               <button
-                className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
+                className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-gray-800 hover:shadow-1 dark:border-strokedark dark:text-gray-200"
                 type="button"
-                // onClick={() => {
-                //   // Handle cancel action if needed
-                // }}
+                onClick={() => {
+                  setFiles([]);
+                }}
               >
                 Cancel
               </button>
-              <button className="flex justify-center rounded bg-violet-500 px-6 py-2 font-medium text-white hover:bg-opacity-90">
-                Save
+              <button className="flex justify-center rounded bg-violet-500 px-6 py-2 font-medium text-gray-200 hover:bg-opacity-90">
+                Upload
               </button>
             </div>
           </form>
