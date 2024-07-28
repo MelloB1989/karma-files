@@ -1,36 +1,128 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Karma Files README
 
-## Getting Started
+## Overview
 
-First, run the development server:
+Karma Files provides a streamlined API for uploading and managing files, supporting single, multiple, and large file uploads. It ensures secure authentication using JWT tokens and returns CDN URLs for the uploaded files. This guide covers the API endpoints, React component integration, and database design for Karma Files.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Endpoints
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1. User Registration
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Endpoint**: `/user/register`
+- **Method**: POST
+- **Parameters**:
+  - `username`
+  - `password`
+  - `scopes` (Array)
+- **Returns**: JWT token
+  - **Body**: `userId`, `api-token`
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### 2. User Update
 
-## Learn More
+- **Endpoint**: `/user/update`
+- **Method**: PUT
+- **Headers**:
+  - `Authorization: Bearer <JWT>`
+- **Parameters**: Update any user information
+- **Returns**: Updated user information
 
-To learn more about Next.js, take a look at the following resources:
+### 3. Get API Token
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Endpoint**: `/user/get_token`
+- **Method**: GET
+- **Headers**:
+  - `Authorization: Bearer <JWT>`
+- **Returns**: `api_token`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### 4. User Login
 
-## Deploy on Vercel
+- **Endpoint**: `/user/login`
+- **Method**: POST
+- **Parameters**:
+  - `username`
+  - `password`
+- **Returns**: JWT token
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Single File Upload
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Endpoint**: `/upload/single`
+- **Method**: POST
+- **Headers**:
+  - `Authorization: Bearer <JWT>`
+- **Parameters**:
+  - `filename`
+  - `file`
+  - `description`
+- **Returns**: File CDN URL
+
+### 6. Multiple File Upload
+
+- **Endpoint**: `/upload/multiple`
+- **Method**: POST
+- **Headers**:
+  - `Authorization: Bearer <JWT>`
+- **Parameters**:
+  - `filename[]` (Array)
+  - `files[]` (Array)
+  - `description`
+- **Returns**: Array of file CDN URLs
+
+## React Component Integration
+
+To use Karma Files in a React component:
+
+1. **Authenticate and obtain token**:
+
+   ```javascript
+   const token = authMe(username, password);
+   ```
+
+2. **Single File Upload**:
+   ```javascript
+   const options = { token };
+   <SingleUpload options={options} />;
+   ```
+
+## Major Features
+
+- **Single File Uploads**
+- **Multiple File Uploads**
+- **Large File Uploads**
+
+## Database Design
+
+### Tables
+
+#### 1. Files Table
+
+- **Columns**:
+  - `ID`
+  - `UserId`
+  - `Timestamp`
+  - `Filename`
+  - `Description`
+
+#### 2. Users Table
+
+- **Columns**:
+  - `ID`
+  - `Username`
+  - `Password`
+  - `api_token`
+  - `scopes[]`
+  - `Description`
+
+## Architecture
+
+### Components
+
+1. **KF Server**: Handles API requests and file uploads.
+2. **KF Library**: Manages file storage and CDN links.
+3. **Client**: User-facing application that integrates with KF Server.
+
+### Workflow
+
+1. **Public Link**: KF Library provides public links for uploaded files.
+2. **Auth**: Authentication via Karma Auth.
+
+---
