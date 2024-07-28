@@ -8,7 +8,7 @@ Karma Files provides a streamlined API for uploading and managing files, support
 
 ### 1. User Registration
 
-- **Endpoint**: `/user/register`
+- **Endpoint**: `/user/create`
 - **Method**: POST
 - **Parameters**:
   - `username`
@@ -17,33 +17,15 @@ Karma Files provides a streamlined API for uploading and managing files, support
 - **Returns**: JWT token
   - **Body**: `userId`, `api-token`
 
-### 2. User Update
+### 2. Get API Token
 
-- **Endpoint**: `/user/update`
-- **Method**: PUT
-- **Headers**:
-  - `Authorization: Bearer <JWT>`
-- **Parameters**: Update any user information
-- **Returns**: Updated user information
-
-### 3. Get API Token
-
-- **Endpoint**: `/user/get_token`
+- **Endpoint**: `/user/`
 - **Method**: GET
 - **Headers**:
   - `Authorization: Bearer <JWT>`
 - **Returns**: `api_token`
 
-### 4. User Login
-
-- **Endpoint**: `/user/login`
-- **Method**: POST
-- **Parameters**:
-  - `username`
-  - `password`
-- **Returns**: JWT token
-
-### 5. Single File Upload
+### 3. Single File Upload
 
 - **Endpoint**: `/upload/single`
 - **Method**: POST
@@ -55,7 +37,7 @@ Karma Files provides a streamlined API for uploading and managing files, support
   - `description`
 - **Returns**: File CDN URL
 
-### 6. Multiple File Upload
+### 4. Multiple File Upload
 
 - **Endpoint**: `/upload/multiple`
 - **Method**: POST
