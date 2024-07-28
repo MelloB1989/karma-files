@@ -4,6 +4,10 @@
 
 Karma Files provides a streamlined API for uploading and managing files, supporting single, multiple, and large file uploads. It ensures secure authentication using JWT tokens and returns CDN URLs for the uploaded files. This guide covers the API endpoints, React component integration, and database design for Karma Files.
 
+## Demo
+
+![Demo](https://github.com/NangunooriAbhinav/karma-files/blob/main/demo.JPG?raw=true)
+
 ## Endpoints
 
 ### 1. User Registration
