@@ -14,3 +14,10 @@
           scrollbar-width: none;  /* Firefox */
     }
   }
+
+.bg{
+    background-image: url("/bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
